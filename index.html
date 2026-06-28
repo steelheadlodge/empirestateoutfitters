@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DNA Trail Cameras | Empire State Outfitters</title>
+  <meta name="description" content="DNA adaptive cellular trail cameras by Empire State Outfitters. Detect. Notify. Adapt. Set it up — we handle the rest." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #070b09;
+      --bg-elevated: rgba(14, 22, 18, 0.78);
+      --text: #f4f7f5;
+      --muted: #9eb0a4;
+      --accent: #3d8f57;
+      --accent-bright: #62c882;
+      --warm: #a86b52;
+      --border: rgba(255, 255, 255, 0.09);
+      --glass: rgba(7, 11, 9, 0.62);
+      --hero-overlay: linear-gradient(
+        108deg,
+        rgba(4, 8, 6, 0.94) 0%,
+        rgba(4, 8, 6, 0.82) 38%,
+        rgba(4, 8, 6, 0.45) 68%,
+        rgba(4, 8, 6, 0.72) 100%
+      );
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; height: auto; }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 1.25rem;
+      background: var(--glass);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid transparent;
+      transition: padding 0.35s ease, background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .site-header.scrolled {
+      padding: 0.6rem 1.25rem;
+      background: rgba(7, 11, 9, 0.88);
+      border-bottom-color: var(--border);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .header-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand img {
+      height: clamp(34px, 7vw, 46px);
+      width: auto;
+      filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.45));
+      transition: transform 0.35s ease;
+    }
+
+    .site-header.scrolled .brand img {
+      transform: scale(0.92);
+    }
+
+    .nav-cta {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      padding: 0.55rem 1.15rem;
+      border-radius: 999px;
+      background: rgba(98, 200, 130, 0.1);
+      border: 1px solid rgba(98, 200, 130, 0.4);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent-bright);
+      color: var(--bg);
+      transform: translateY(-1px);
+      box-shadow: 0 0 24px rgba(98, 200, 130, 0.35);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      padding: 7rem 1.25rem 5rem;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      animation: kenBurns 22s ease-in-out infinite alternate;
+      transform: scale(1.08);
+    }
+
+    .hero-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--hero-overlay);
+    }
+
+    .hero-bg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: radial-gradient(ellipse 55% 45% at 18% 55%, rgba(98, 200, 130, 0.08), transparent 70%);
+      pointer-events: none;
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .viewfinder {
+      position: absolute;
+      inset: 5.5rem 1.25rem 2rem;
+      z-index: 2;
+      pointer-events: none;
+      max-width: 1180px;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+    }
+
+    .viewfinder span {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-color: rgba(98, 200, 130, 0.35);
+      border-style: solid;
+      opacity: 0;
+      animation: fadeIn 1.2s ease 0.6s forwards;
+    }
+
+    .viewfinder .tl { top: 0; left: 0; border-width: 2px 0 0 2px; }
+    .viewfinder .tr { top: 0; right: 0; border-width: 2px 2px 0 0; }
+    .viewfinder .bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
+    .viewfinder .br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 1180px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-grid {
+      max-width: 40rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-bright);
+      background: rgba(98, 200, 130, 0.08);
+      border: 1px solid rgba(98, 200, 130, 0.3);
+      padding: 0.42rem 0.95rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .badge::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-bright);
+      box-shadow: 0 0 12px var(--accent-bright);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    h1 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: clamp(4.5rem, 16vw, 8.5rem);
+      font-weight: 400;
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(165deg, #ffffff 0%, #d4e8db 45%, #62c882 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 4px 24px rgba(98, 200, 130, 0.15));
+      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+    }
+
+    .tagline {
+      font-size: clamp(0.8rem, 2vw, 0.95rem);
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-bright);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+    }
+
+    .tagline .dot {
+      opacity: 0.45;
+      padding: 0 0.15em;
+    }
+
+    .hero p {
+      font-size: clamp(1.05rem, 2.2vw, 1.18rem);
+      color: var(--muted);
+      margin-bottom: 2rem;
+      max-width: 32rem;
+      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+    }
+
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+    }
+
+    .chip {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(244, 247, 245, 0.75);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(6px);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.42s both;
+    }
+
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.92rem 1.65rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.25s, background 0.2s, border-color 0.2s;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--accent-bright);
+      color: var(--bg);
+      box-shadow: 0 8px 32px rgba(98, 200, 130, 0.3);
+    }
+
+    .btn-primary::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.35) 50%, transparent 60%);
+      transform: translateX(-120%);
+      transition: transform 0.6s ease;
+    }
+
+    .btn-primary:hover::after { transform: translateX(120%); }
+    .btn-primary:hover { box-shadow: 0 14px 40px rgba(98, 200, 130, 0.42); }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(158, 176, 164, 0.6);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      animation: fadeIn 1s ease 1.2s both;
+    }
+
+    .scroll-hint::after {
+      content: "";
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(to bottom, rgba(98, 200, 130, 0.5), transparent);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+
+    .main {
+      position: relative;
+      z-index: 4;
+      margin-top: -4rem;
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      position: relative;
+    }
+
+    @media (min-width: 720px) {
+      .pillars { grid-template-columns: repeat(3, 1fr); }
+
+      .pillars::before {
+        content: "";
+        position: absolute;
+        top: 2.4rem;
+        left: 16%;
+        right: 16%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(98, 200, 130, 0.35), transparent);
+        z-index: 0;
+      }
+    }
+
+    .pillar {
+      position: relative;
+      z-index: 1;
+      background: var(--bg-elevated);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.65rem 1.5rem 1.5rem;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s, box-shadow 0.3s;
+      opacity: 0;
+      transform: translateY(28px);
+    }
+
+    .pillar.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .pillar::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 1.25rem;
+      right: 1.25rem;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-bright), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .pillar:hover {
+      transform: translateY(-6px);
+      border-color: rgba(98, 200, 130, 0.35);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(98, 200, 130, 0.08);
+    }
+
+    .pillar:hover::before { opacity: 1; }
+
+    .pillar-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      background: rgba(98, 200, 130, 0.1);
+      border: 1px solid rgba(98, 200, 130, 0.2);
+      color: var(--accent-bright);
+    }
+
+    .pillar-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .pillar strong {
+      display: block;
+      font-size: 1.55rem;
+      font-family: "Instrument Serif", Georgia, serif;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+    }
+
+    .pillar span {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--warm);
+    }
+
+    .pillar p {
+      margin-top: 0.85rem;
+      font-size: 0.94rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .how {
+      padding: 4.5rem 0 3rem;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .how.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .how h2 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: clamp(1.85rem, 4vw, 2.5rem);
+      text-align: center;
+      margin-bottom: 2.75rem;
+    }
+
+    .steps {
+      display: grid;
+      gap: 1rem;
+      position: relative;
+    }
+
+    @media (min-width: 720px) {
+      .steps {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+      }
+
+      .steps::before {
+        content: "";
+        position: absolute;
+        top: 1.05rem;
+        left: 18%;
+        right: 18%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+      }
+    }
+
+    .step {
+      position: relative;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem 1.35rem;
+      transition: border-color 0.3s, background 0.3s, transform 0.3s;
+    }
+
+    .step:hover {
+      background: rgba(98, 200, 130, 0.04);
+      border-color: rgba(98, 200, 130, 0.25);
+      transform: translateY(-3px);
+    }
+
+    .step-num {
+      width: 2.15rem;
+      height: 2.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      color: var(--accent-bright);
+      font-weight: 700;
+      font-size: 0.85rem;
+      border-radius: 50%;
+      border: 1px solid rgba(98, 200, 130, 0.4);
+      margin-bottom: 0.9rem;
+      box-shadow: 0 0 20px rgba(98, 200, 130, 0.12);
+    }
+
+    .step h3 {
+      font-size: 1rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .step p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .cta {
+      text-align: center;
+      padding: 3.5rem 1.75rem;
+      margin: 1.5rem 0 2.5rem;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(98, 200, 130, 0.14), transparent 65%),
+        var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .cta.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .cta::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(98, 200, 130, 0.35), transparent 40%, transparent 60%, rgba(168, 107, 82, 0.2));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .cta h2 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: clamp(1.65rem, 4vw, 2.1rem);
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+
+    .cta p {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      max-width: 28rem;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      justify-content: center;
+      font-size: 0.9rem;
+      position: relative;
+    }
+
+    .contact-links a {
+      color: var(--accent-bright);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contact-links a:hover { color: #fff; }
+
+    footer {
+      padding: 2.5rem 1.25rem 2.75rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    footer .logo-footer {
+      margin: 0 auto 1rem;
+      height: 38px;
+      width: auto;
+      opacity: 0.7;
+      filter: grayscale(0.2);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes kenBurns {
+      from { transform: scale(1.08) translate(0, 0); }
+      to { transform: scale(1.14) translate(-1.2%, -0.6%); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(0.85); }
+    }
+
+    @keyframes scrollLine {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+
+    @media (min-width: 900px) {
+      .hero-grid { max-width: 44rem; }
+      .viewfinder { inset: 6rem 2rem 2.5rem; }
+    }
+
+    @media (max-width: 719px) {
+      .scroll-hint { display: none; }
+      .viewfinder { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .hero-bg img { animation: none; transform: scale(1.05); }
+      .pillar, .how, .cta { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header" id="header">
+    <div class="header-inner">
+      <a class="brand" href="/">
+        <img src="assets/logo-eso.png" alt="Empire State Outfitters" width="220" height="80" />
+      </a>
+      <a class="nav-cta" href="#contact">Get updates</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <img src="assets/hero-forest.jpg" alt="" width="1920" height="1280" fetchpriority="high" />
+    </div>
+    <div class="viewfinder" aria-hidden="true">
+      <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+    </div>
+    <div class="hero-content">
+      <div class="hero-grid">
+        <div class="badge">Coming soon</div>
+        <h1>DNA</h1>
+        <p class="tagline">Detect<span class="dot">·</span>Notify<span class="dot">·</span>Adapt</p>
+        <p>
+          Adaptive cellular trail cameras that set themselves. Mount it, confirm signal, walk away — we filter the junk, watch camera health, and dial in settings for you.
+        </p>
+        <div class="hero-chips">
+          <span class="chip">Cellular</span>
+          <span class="chip">Cloud AI</span>
+          <span class="chip">Auto-tune</span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contact">Join early list</a>
+          <a class="btn btn-secondary" href="mailto:andrew@empirestateoutfitters.com?subject=DNA%20Trail%20Camera%20Interest">Email us</a>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true">Scroll</div>
+  </section>
+
+  <main class="main">
+    <div class="wrap">
+      <section class="pillars" aria-label="DNA features">
+        <article class="pillar" style="transition-delay: 0s">
+          <div class="pillar-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          </div>
+          <span>01</span>
+          <strong>Detect</strong>
+          <p>Cloud AI filters false triggers — grass, wind, and empty shots never clutter your feed.</p>
+        </article>
+        <article class="pillar" style="transition-delay: 0.1s">
+          <div class="pillar-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </div>
+          <span>02</span>
+          <strong>Notify</strong>
+          <p>Get alerts when it matters — deer, bear, buck, or trouble on your property.</p>
+        </article>
+        <article class="pillar" style="transition-delay: 0.2s">
+          <div class="pillar-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+          </div>
+          <span>03</span>
+          <strong>Adapt</strong>
+          <p>We tune your camera remotely over time. No sensitivity sliders. No guesswork.</p>
+        </article>
+      </section>
+
+      <section class="how">
+        <h2>Set it up. We do the rest.</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <h3>Install on location</h3>
+            <p>Follow our simple mount guide — height, angle, and a quick signal check before you leave.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <h3>We verify it’s working</h3>
+            <p>Your camera checks in. We confirm signal, battery, and framing so you’re not guessing from home.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <h3>DNA takes over</h3>
+            <p>Automatic tuning, health monitoring, and smart alerts — built for hunters, land owners, and property watch.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta" id="contact">
+        <h2>Be first to know</h2>
+        <p>DNA is launching soon. Reach out for early access, pricing, and launch updates.</p>
+        <div class="hero-actions" style="justify-content: center; margin-bottom: 1.25rem;">
+          <a class="btn btn-primary" href="mailto:andrew@empirestateoutfitters.com?subject=DNA%20Early%20Access%20Request&body=Hi%20Andrew%2C%0A%0AI%27m%20interested%20in%20DNA%20trail%20cameras.%20Please%20notify%20me%20at%20launch.%0A%0AThanks%2C">Request early access</a>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:andrew@empirestateoutfitters.com">andrew@empirestateoutfitters.com</a>
+          <a href="https://wa.me/message/FV54MWVQGNR2L1" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <img class="logo-footer" src="assets/logo-eso.png" alt="" width="160" height="58" />
+    <p>&copy; <span id="y"></span> Empire State Outfitters. DNA adaptive trail cameras.</p>
+  </footer>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    const header = document.getElementById("header");
+    window.addEventListener("scroll", () => {
+      header.classList.toggle("scrolled", window.scrollY > 40);
+    }, { passive: true });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) e.target.classList.add("visible");
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+
+    document.querySelectorAll(".pillar, .how, .cta").forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
