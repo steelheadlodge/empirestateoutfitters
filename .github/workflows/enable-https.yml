@@ -1,0 +1,42 @@
+name: Enable Pages HTTPS
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+
+jobs:
+  enable-https:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip if HTTPS already enforced
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          enforced=$(gh api "repos/${{ github.repository }}/pages" --jq '.https_enforced')
+          echo "enforced=$enforced" >> "$GITHUB_OUTPUT"
+
+      - name: Enforce HTTPS when certificate is ready
+        if: steps.check.outputs.enforced != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh api "repos/${{ github.repository }}/pages" -X PUT --input - <<'EOF'
+          {
+            "cname": "empirestateoutfitters.com",
+            "https_enforced": true,
+            "build_type": "legacy",
+            "source": { "branch": "main", "path": "/" }
+          }
+          EOF
+          then
+            gh api "repos/${{ github.repository }}/pages" --jq '{status, cname, https_enforced}'
+            echo "HTTPS enforced."
+          else
+            echo "Certificate not ready yet — DNS may still be propagating."
+          fi
