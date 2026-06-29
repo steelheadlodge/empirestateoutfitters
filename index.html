@@ -197,7 +197,13 @@
     }
 
     .hero-grid {
+      display: flex;
+      flex-direction: column;
       max-width: 40rem;
+    }
+
+    .hero-body {
+      width: 100%;
     }
 
     .badge {
@@ -213,8 +219,7 @@
       border: 1px solid rgba(var(--accent-rgb), 0.3);
       padding: 0.42rem 0.95rem;
       border-radius: 999px;
-      margin-bottom: 1.5rem;
-      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+      margin: 0 0 1.1rem;
     }
 
     .badge::before {
@@ -231,14 +236,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-inline: auto;
-      margin-bottom: 1.35rem;
+      align-self: center;
+      margin-bottom: 1.75rem;
+      max-width: 100%;
       animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
     }
 
     h1 {
       font-family: "Instrument Serif", Georgia, serif;
-      font-size: clamp(6.5rem, 24vw, 12rem);
+      font-size: clamp(6rem, 22vw, 11.5rem);
       font-weight: 400;
       line-height: 0.9;
       letter-spacing: -0.03em;
@@ -263,7 +269,6 @@
       color: rgba(var(--accent-rgb), 0.92);
       border-top: 1px solid rgba(var(--accent-rgb), 0.22);
       padding-top: 0.5rem;
-      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
     }
 
     .tagline-word {
@@ -278,7 +283,7 @@
       flex-shrink: 0;
     }
 
-    .hero p {
+    .hero-body p {
       font-size: clamp(1.05rem, 2.2vw, 1.18rem);
       color: var(--muted);
       margin-bottom: 2rem;
@@ -666,8 +671,7 @@
       margin: 0 auto 1rem;
       height: 38px;
       width: auto;
-      opacity: 0.7;
-      filter: grayscale(0.2);
+      opacity: 0.75;
     }
 
     @keyframes fadeUp {
@@ -703,6 +707,11 @@
     @media (max-width: 719px) {
       .scroll-hint { display: none; }
       .viewfinder { display: none; }
+      .hero-body { text-align: center; }
+      .hero-body p { margin-inline: auto; }
+      .hero-chips,
+      .hero-actions { justify-content: center; }
+      h1 { font-size: clamp(5rem, 22vw, 8.5rem); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -737,8 +746,8 @@
     </div>
     <div class="hero-content">
       <div class="hero-grid">
-        <div class="badge">Coming soon</div>
         <div class="hero-lockup">
+          <span class="badge">Coming soon</span>
           <h1>DNA</h1>
           <p class="tagline" aria-label="Detect, Notify, Adapt">
             <span class="tagline-word">Detect</span>
@@ -748,17 +757,19 @@
             <span class="tagline-word">Adapt</span>
           </p>
         </div>
-        <p>
-          Adaptive cellular trail cameras that set themselves. Mount it, confirm signal, walk away — we filter the junk, watch camera health, and dial in settings for you.
-        </p>
-        <div class="hero-chips">
-          <span class="chip">Cellular</span>
-          <span class="chip">Cloud AI</span>
-          <span class="chip">Auto-tune</span>
-        </div>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#contact">Join early list</a>
-          <a class="btn btn-secondary" href="mailto:andrew@empirestateoutfitters.com?subject=DNA%20Trail%20Camera%20Interest">Email us</a>
+        <div class="hero-body">
+          <p>
+            Adaptive cellular trail cameras that set themselves. Mount it, confirm signal, walk away — we filter the junk, watch camera health, and dial in settings for you.
+          </p>
+          <div class="hero-chips">
+            <span class="chip">Cellular</span>
+            <span class="chip">Cloud AI</span>
+            <span class="chip">Auto-tune</span>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#contact">Join early list</a>
+            <a class="btn btn-secondary" href="mailto:andrew@empirestateoutfitters.com?subject=DNA%20Trail%20Camera%20Interest">Email us</a>
+          </div>
         </div>
       </div>
     </div>
@@ -860,6 +871,7 @@
     syncHeroLockup();
     window.addEventListener("resize", syncHeroLockup, { passive: true });
     if (document.fonts?.ready) document.fonts.ready.then(syncHeroLockup);
+    requestAnimationFrame(() => requestAnimationFrame(syncHeroLockup));
   </script>
 </body>
 </html>
