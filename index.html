@@ -14,8 +14,9 @@
       --bg-elevated: rgba(14, 22, 18, 0.78);
       --text: #f4f7f5;
       --muted: #9eb0a4;
-      --accent: #3d8f57;
-      --accent-bright: #62c882;
+      --accent: #4a9430;
+      --accent-bright: #6ec44a;
+      --accent-rgb: 110, 196, 74;
       --warm: #a86b52;
       --border: rgba(255, 255, 255, 0.09);
       --glass: rgba(7, 11, 9, 0.62);
@@ -81,7 +82,7 @@
     }
 
     .brand img {
-      height: clamp(34px, 7vw, 46px);
+      height: clamp(30px, 6.5vw, 40px);
       width: auto;
       filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.45));
       transition: transform 0.35s ease;
@@ -98,8 +99,8 @@
       text-decoration: none;
       padding: 0.55rem 1.15rem;
       border-radius: 999px;
-      background: rgba(98, 200, 130, 0.1);
-      border: 1px solid rgba(98, 200, 130, 0.4);
+      background: rgba(var(--accent-rgb), 0.1);
+      border: 1px solid rgba(var(--accent-rgb), 0.4);
       transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
       white-space: nowrap;
     }
@@ -108,7 +109,7 @@
       background: var(--accent-bright);
       color: var(--bg);
       transform: translateY(-1px);
-      box-shadow: 0 0 24px rgba(98, 200, 130, 0.35);
+      box-shadow: 0 0 24px rgba(var(--accent-rgb), 0.35);
     }
 
     .hero {
@@ -148,7 +149,7 @@
       position: absolute;
       inset: 0;
       z-index: 1;
-      background: radial-gradient(ellipse 55% 45% at 18% 55%, rgba(98, 200, 130, 0.08), transparent 70%);
+      background: radial-gradient(ellipse 55% 45% at 18% 55%, rgba(var(--accent-rgb), 0.08), transparent 70%);
       pointer-events: none;
     }
 
@@ -176,7 +177,7 @@
       position: absolute;
       width: 28px;
       height: 28px;
-      border-color: rgba(98, 200, 130, 0.35);
+      border-color: rgba(var(--accent-rgb), 0.35);
       border-style: solid;
       opacity: 0;
       animation: fadeIn 1.2s ease 0.6s forwards;
@@ -208,8 +209,8 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--accent-bright);
-      background: rgba(98, 200, 130, 0.08);
-      border: 1px solid rgba(98, 200, 130, 0.3);
+      background: rgba(var(--accent-rgb), 0.08);
+      border: 1px solid rgba(var(--accent-rgb), 0.3);
       padding: 0.42rem 0.95rem;
       border-radius: 999px;
       margin-bottom: 1.5rem;
@@ -226,34 +227,53 @@
       animation: pulse 2.4s ease-in-out infinite;
     }
 
+    .hero-lockup {
+      display: inline-block;
+      margin-bottom: 1.35rem;
+      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+    }
+
     h1 {
       font-family: "Instrument Serif", Georgia, serif;
       font-size: clamp(4.5rem, 16vw, 8.5rem);
       font-weight: 400;
       line-height: 0.88;
       letter-spacing: -0.04em;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(165deg, #ffffff 0%, #d4e8db 45%, #62c882 100%);
+      margin-bottom: 0.42rem;
+      background: linear-gradient(165deg, #ffffff 0%, #dce8d4 45%, var(--accent-bright) 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      filter: drop-shadow(0 4px 24px rgba(98, 200, 130, 0.15));
-      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+      filter: drop-shadow(0 4px 24px rgba(var(--accent-rgb), 0.15));
     }
 
     .tagline {
-      font-size: clamp(0.8rem, 2vw, 0.95rem);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center;
+      width: 100%;
+      margin: 0;
+      font-size: clamp(0.68rem, 1.65vw, 0.82rem);
       font-weight: 600;
-      letter-spacing: 0.32em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--accent-bright);
-      margin-bottom: 1.5rem;
-      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+      color: rgba(var(--accent-rgb), 0.92);
+      border-top: 1px solid rgba(var(--accent-rgb), 0.22);
+      padding-top: 0.55rem;
+      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
     }
 
-    .tagline .dot {
-      opacity: 0.45;
-      padding: 0 0.15em;
+    .tagline-word {
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .tagline-sep {
+      opacity: 0.38;
+      font-weight: 400;
+      letter-spacing: 0;
+      padding: 0 0.12em;
+      text-align: center;
     }
 
     .hero p {
@@ -311,7 +331,7 @@
     .btn-primary {
       background: var(--accent-bright);
       color: var(--bg);
-      box-shadow: 0 8px 32px rgba(98, 200, 130, 0.3);
+      box-shadow: 0 8px 32px rgba(var(--accent-rgb), 0.3);
     }
 
     .btn-primary::after {
@@ -324,7 +344,7 @@
     }
 
     .btn-primary:hover::after { transform: translateX(120%); }
-    .btn-primary:hover { box-shadow: 0 14px 40px rgba(98, 200, 130, 0.42); }
+    .btn-primary:hover { box-shadow: 0 14px 40px rgba(var(--accent-rgb), 0.42); }
 
     .btn-secondary {
       background: rgba(255, 255, 255, 0.04);
@@ -360,7 +380,7 @@
       content: "";
       width: 1px;
       height: 32px;
-      background: linear-gradient(to bottom, rgba(98, 200, 130, 0.5), transparent);
+      background: linear-gradient(to bottom, rgba(var(--accent-rgb), 0.5), transparent);
       animation: scrollLine 2s ease-in-out infinite;
     }
 
@@ -394,7 +414,7 @@
         left: 16%;
         right: 16%;
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(98, 200, 130, 0.35), transparent);
+        background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.35), transparent);
         z-index: 0;
       }
     }
@@ -432,8 +452,8 @@
 
     .pillar:hover {
       transform: translateY(-6px);
-      border-color: rgba(98, 200, 130, 0.35);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(98, 200, 130, 0.08);
+      border-color: rgba(var(--accent-rgb), 0.35);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(var(--accent-rgb), 0.08);
     }
 
     .pillar:hover::before { opacity: 1; }
@@ -446,8 +466,8 @@
       justify-content: center;
       margin-bottom: 1rem;
       border-radius: 10px;
-      background: rgba(98, 200, 130, 0.1);
-      border: 1px solid rgba(98, 200, 130, 0.2);
+      background: rgba(var(--accent-rgb), 0.1);
+      border: 1px solid rgba(var(--accent-rgb), 0.2);
       color: var(--accent-bright);
     }
 
@@ -531,8 +551,8 @@
     }
 
     .step:hover {
-      background: rgba(98, 200, 130, 0.04);
-      border-color: rgba(98, 200, 130, 0.25);
+      background: rgba(var(--accent-rgb), 0.04);
+      border-color: rgba(var(--accent-rgb), 0.25);
       transform: translateY(-3px);
     }
 
@@ -547,9 +567,9 @@
       font-weight: 700;
       font-size: 0.85rem;
       border-radius: 50%;
-      border: 1px solid rgba(98, 200, 130, 0.4);
+      border: 1px solid rgba(var(--accent-rgb), 0.4);
       margin-bottom: 0.9rem;
-      box-shadow: 0 0 20px rgba(98, 200, 130, 0.12);
+      box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.12);
     }
 
     .step h3 {
@@ -568,7 +588,7 @@
       padding: 3.5rem 1.75rem;
       margin: 1.5rem 0 2.5rem;
       background:
-        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(98, 200, 130, 0.14), transparent 65%),
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(var(--accent-rgb), 0.14), transparent 65%),
         var(--bg-elevated);
       border: 1px solid var(--border);
       border-radius: 22px;
@@ -591,7 +611,7 @@
       inset: -1px;
       border-radius: inherit;
       padding: 1px;
-      background: linear-gradient(135deg, rgba(98, 200, 130, 0.35), transparent 40%, transparent 60%, rgba(168, 107, 82, 0.2));
+      background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.35), transparent 40%, transparent 60%, rgba(168, 107, 82, 0.2));
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
@@ -700,7 +720,7 @@
   <header class="site-header" id="header">
     <div class="header-inner">
       <a class="brand" href="/">
-        <img src="assets/logo-eso.png" alt="Empire State Outfitters" width="220" height="80" />
+        <img src="assets/logo-empire-mark.png" alt="Empire" width="168" height="40" />
       </a>
       <a class="nav-cta" href="#contact">Get updates</a>
     </div>
@@ -716,8 +736,16 @@
     <div class="hero-content">
       <div class="hero-grid">
         <div class="badge">Coming soon</div>
-        <h1>DNA</h1>
-        <p class="tagline">Detect<span class="dot">·</span>Notify<span class="dot">·</span>Adapt</p>
+        <div class="hero-lockup">
+          <h1>DNA</h1>
+          <p class="tagline" aria-label="Detect, Notify, Adapt">
+            <span class="tagline-word">Detect</span>
+            <span class="tagline-sep" aria-hidden="true">·</span>
+            <span class="tagline-word">Notify</span>
+            <span class="tagline-sep" aria-hidden="true">·</span>
+            <span class="tagline-word">Adapt</span>
+          </p>
+        </div>
         <p>
           Adaptive cellular trail cameras that set themselves. Mount it, confirm signal, walk away — we filter the junk, watch camera health, and dial in settings for you.
         </p>
@@ -800,7 +828,7 @@
   </main>
 
   <footer>
-    <img class="logo-footer" src="assets/logo-eso.png" alt="" width="160" height="58" />
+    <img class="logo-footer" src="assets/logo-empire-mark.png" alt="" width="140" height="33" />
     <p>&copy; <span id="y"></span> Empire State Outfitters. DNA adaptive trail cameras.</p>
   </footer>
 
